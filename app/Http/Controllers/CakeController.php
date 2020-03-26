@@ -55,9 +55,8 @@ class CakeController extends Controller
         try
         {
             $record = Cake::findOrFail($id);
-            
-            $meta = $this->responseHelper->createPageMeta(0, 0, 0, 0);
-            $data = $this->responseHelper->createJson(false, $record, 200, 'success', true, $meta);
+
+            $data = response(json_encode($record), 200)->header('Content-Type', 'application/json');
         }
         catch(Exception $err)
         {
@@ -73,13 +72,14 @@ class CakeController extends Controller
 
         try
         {
-            $requestData = json_decode($request->getContent());
+            $requestData = json_decode($request->getContent(), true);
 
             // TODO: Validate Value
             $createData = Cake::create($requestData);
 
             $meta = $this->responseHelper->createPageMeta(0, 0, 0, 0);
-            $data = $this->responseHelper->createJson(false, $createData, 201, 'success', true, $meta);
+            // $data = $this->responseHelper->createJson(false, $createData, 201, 'success', true, $meta);
+            $data = response(json_encode($createData), 201)->header('Content-Type', 'application/json');
         }
         catch(Exception $err)
         {
@@ -95,14 +95,13 @@ class CakeController extends Controller
 
         try
         {
-            $requestData = json_decode($request->getContent());
+            $requestData = json_decode($request->getContent(), true);
 
             // TODO: Validate Value
             $updateData = Cake::findOrFail($id);
             $updateData->update($requestData);
 
-            $meta = $this->responseHelper->createPageMeta(0, 0, 0, 0);
-            $data = $this->responseHelper->createJson(false, $updateData, 200, 'success', true, $meta);
+            $data = response(json_encode($updateData), 200)->header('Content-Type', 'application/json');
         }
         catch(Exception $err)
         {
@@ -121,8 +120,7 @@ class CakeController extends Controller
             $cake = Cake::findOrFail($id);
             $cake->delete();
 
-            $meta = $this->responseHelper->createPageMeta(0, 0, 0, 0);
-            $data = $this->responseHelper->createJson(false, $cake, 200, 'success', true, $meta);
+            $data = response(json_encode($cake), 200)->header('Content-Type', 'application/json');
         }
         catch(Exception $err)
         {
