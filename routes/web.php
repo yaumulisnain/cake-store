@@ -14,3 +14,11 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->group(['prefix' => 'cakes'], function () use ($router) {
+    $router->get('/', ['uses' => 'CakeController@list']);
+    $router->get('/{id}', ['uses' => 'CakeController@show']);
+    $router->post('/', ['uses' => 'CakeController@store']);
+    $router->patch('/{id}', ['uses' => 'CakeController@update']);
+    $router->delete('/{id}', ['uses' => 'CakeController@delete']);
+});
